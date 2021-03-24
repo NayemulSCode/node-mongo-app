@@ -23,9 +23,14 @@ client.connect(err => {
       console.log('data added successful');
       res.send('success');
     })
-    //console.log(product);
   })
-  //console.log('db connected');
+  //read product
+  app.get('/products',(req,res) =>{
+    collection.find({}).limit(20)
+    .toArray((err, results) =>{
+      res.send(results);
+    })
+  })
 });
 
 
