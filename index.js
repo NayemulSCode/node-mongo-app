@@ -33,11 +33,26 @@ client.connect(err => {
       res.send(results);
     })
   })
-  //update Product
+  //load single Product
+  app.get('/product/:id',(req, res) =>{
+    collection.find({_id: ObjectId(req.params.id)})
+    .toArray((err, result) =>{
+      res.send(result[0]);
+    })
+  })
   //delete product
   app.delete('/delete/:id',(req,res)=>{
     collection.deleteOne({_id: ObjectId(req.params.id)})
     .then( result =>{
+      console.log(result);
+    })
+  })
+  //update product
+  app.patch('/update/:id',(req,res) =>{
+    collection.updateOne({_id: ObjectId(req.params.id)},{
+      $set: {price: req.body.price, quantity: req.body.quantity}
+    })
+    .then(result =>{
       console.log(result);
     })
   })
