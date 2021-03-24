@@ -1,11 +1,12 @@
 const express = require('express');
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
+
 const MongoClient = require('mongodb').MongoClient;
 const ObjectId = require('mongodb').ObjectId;
 
 const app = express();
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 const uri = "mongodb+srv://saheb:sahebmongo2021@cluster0.vq7w3.mongodb.net/organicdb?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -23,7 +24,7 @@ client.connect(err => {
     collection.insertOne(product)
     .then(result =>{
       console.log('data added successful');
-      res.send('success');
+      res.redirect('/');
     })
   })
   //read product
@@ -44,7 +45,7 @@ client.connect(err => {
   app.delete('/delete/:id',(req,res)=>{
     collection.deleteOne({_id: ObjectId(req.params.id)})
     .then( result =>{
-      console.log(result);
+      res.send(result.deletedCount>0);
     })
   })
   //update product
@@ -53,7 +54,7 @@ client.connect(err => {
       $set: {price: req.body.price, quantity: req.body.quantity}
     })
     .then(result =>{
-      console.log(result);
+      res.send(result.modifiedCount>0);
     })
   })
 });
