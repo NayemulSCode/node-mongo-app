@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser')
 const MongoClient = require('mongodb').MongoClient;
+const ObjectId = require('mongodb').ObjectId;
+
 const app = express();
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -29,6 +31,14 @@ client.connect(err => {
     collection.find({}).limit(20)
     .toArray((err, results) =>{
       res.send(results);
+    })
+  })
+  //update Product
+  //delete product
+  app.delete('/delete/:id',(req,res)=>{
+    collection.deleteOne({_id: ObjectId(req.params.id)})
+    .then( result =>{
+      console.log(result);
     })
   })
 });
