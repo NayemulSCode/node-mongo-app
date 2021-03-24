@@ -1,9 +1,9 @@
 const express = require('express');
-const bodyParser = require('body-parser');
+const bodyParser = require('body-parser')
 const MongoClient = require('mongodb').MongoClient;
 const app = express();
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }))
 
 const uri = "mongodb+srv://saheb:sahebmongo2021@cluster0.vq7w3.mongodb.net/organicdb?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -18,10 +18,14 @@ client.connect(err => {
   // perform actions on the collection object
   app.post('/addProduct',(req, res) =>{
     const product = req.body;
-    console.log(product);
+    collection.insertOne(product)
+    .then(result =>{
+      console.log('data added successful');
+      res.send('success');
+    })
+    //console.log(product);
   })
-  console.log('db connected');
-  client.close();
+  //console.log('db connected');
 });
 
 
