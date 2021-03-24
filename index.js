@@ -15,7 +15,7 @@ app.get('/', (req, res) =>{
 
 client.connect(err => {
   const collection = client.db("organicdb").collection("products");
-  // perform actions on the collection object
+  // create product 
   app.post('/addProduct',(req, res) =>{
     const product = req.body;
     collection.insertOne(product)
